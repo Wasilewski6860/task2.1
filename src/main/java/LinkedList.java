@@ -1,160 +1,87 @@
-class LinkedList {
-
+class LinkedList{
     private Cell head;
     private Cell tail;
 
 
-    public void addFromHead(double value) {
-        Cell newHead = new Cell(value);
+    public void addFromHead(double value){
+        Cell helpCell = new Cell(value);
 
-        addFromHead(newHead);
-    }
-
-
-    public void addFromHead(Cell cell) {
-
-        if (head!=null){
-            cell.setNextCell(head);
-            cell.setPreviousCell(null);
-            head.setPreviousCell(cell);
+        if (this.head !=null){
+            head.setPreviousCell(helpCell);
+            helpCell.setNextCell(head);
+            head=helpCell;
+        }else {
+            head=tail=helpCell;
         }
-        head=cell;
+
     }
 
+    public void addFromTail(double value){
+        Cell helpCell = new Cell(value);
 
-    public void addFromTail(double value) {
-
-        Cell newTail = new Cell(value);
-        addFromTail(newTail);
-    }
-
-
-    public void addFromTail(Cell newTail) {
-
-        if (tail != null) {
-            newTail.setPreviousCell(tail);
-            tail.setNextCell(newTail);
-            tail = newTail;
-        } else {
-            head = newTail;
-            tail = newTail;
+        if (this.tail != null){
+            tail.setNextCell(helpCell);
+            helpCell.setPreviousCell(tail);
+            tail = helpCell;
+        }else {
+            head=tail=helpCell;
         }
     }
-
-
-    public int searchForNumOfLocalMax(){
-        int answer =0;
-        Cell thisCell = this.head;
-
-        while  (thisCell.getNextCell()!=null ){
-
-            if ((thisCell.getValue()>thisCell.getNextCell().getValue()) && (thisCell.getValue()>thisCell.getPreviousCell().getValue())){
-                answer++;
-                System.out.println("Нашли Лок.Максимум " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" < "+thisCell.getValue());
-            }
-            thisCell = thisCell.getNextCell();
-        }
-        return answer;
-    }
-
 
     public double popHead() throws IllegalAccessException {
 
         if (head == null) {
-            throw new IllegalAccessException();
+            throw new IllegalArgumentException();
         }
 
         double value = head.getValue();
 
         if (head.getNextCell() != null) {
-            head = head.getNextCell();
             head.setPreviousCell(null);
+            head = head.getNextCell();
         }
         else {
-            head = null;
-            tail = null;
+            head = tail = null;
         }
 
         return value;
     }
 
+    public double popTail(){
 
-    public double popTail() throws IllegalAccessException {
         if (tail == null) {
-            throw new IllegalAccessException();
+            throw new IllegalArgumentException();
         }
 
         double value = tail.getValue();
 
-        if (tail.getPreviousCell() != null) {
-            tail = tail.getPreviousCell();
+        if (tail.getPreviousCell() != null){
+            tail=tail.getPreviousCell();
             tail.setNextCell(null);
         }
         else {
-            head = null;
-            tail = null;
+            head=tail=null;
         }
 
         return value;
+
     }
 
-
-    public Cell findCell(double value) {
+    public Cell findCell(double searchingValue){
 
         Cell thisCell = head;
+        Cell helpCell = null;
 
         while (thisCell != null) {
-
-            if (thisCell.getValue() == value) {
-                return thisCell;
+            if (Math.abs(thisCell.getValue() - searchingValue) <= 1E-5) {
+                helpCell=thisCell;
             }
-
             else {
                 thisCell = thisCell.getNextCell();
             }
         }
 
-        return null;
-    }
-
-
-    public void insertAfter(Cell previousCell, double value) {
-
-        if (previousCell != tail) {
-
-            Cell helpCell = new Cell(value);
-            helpCell.setPreviousCell(previousCell);
-            helpCell.setNextCell(previousCell.getNextCell());
-
-            previousCell.setNextCell(helpCell);
-            helpCell.getNextCell().setPreviousCell(helpCell);
-        }
-        else {
-            addFromTail(value);
-        }
-    }
-
-
-    public void removeCell(Cell selectedCell) throws IllegalAccessException {
-
-        if (selectedCell == tail) {
-            popTail();
-        }
-        else if (selectedCell == head) {
-            popHead();
-        }
-        else {
-            Cell nextCell = selectedCell.getNextCell();
-            Cell previousCell = selectedCell.getPreviousCell();
-
-            previousCell.setNextCell(nextCell);
-            nextCell.setPreviousCell(previousCell);
-        }
-
-    }
-
-    public boolean isEmpty() {
-        return head == null;
+        return helpCell;
     }
 
     public String toString(){
@@ -168,8 +95,35 @@ class LinkedList {
         }
         return answer;
     }
+
+    public void removeCell(Cell removingCell) throws IllegalAccessException {
+        if (removingCell.equals(this.head)){
+            popHead();
+        }else if (removingCell.equals(this.tail)){
+            popTail();
+        }
+        else {
+            Cell previousCell = removingCell.getPreviousCell();
+            Cell nextCell = removingCell.getNextCell();
+
+            nextCell.setPreviousCell(previousCell);
+            previousCell.setNextCell(nextCell);
+        }
+    }
+
+    public double searchForNumOfLocalMax(){
+        double answer =0;
+        Cell thisCell = this.head;
+
+        while  (thisCell.getNextCell()!=null ){
+
+            if ((thisCell.getValue()>thisCell.getNextCell().getValue()) && (thisCell.getValue()>thisCell.getPreviousCell().getValue())){
+                answer++;
+                System.out.println("Нашли Лок.Максимум " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" < "+thisCell.getValue());
+            }
+            thisCell = thisCell.getNextCell();
+        }
+        return answer;
+    }
+
 }
-
-
-
-
