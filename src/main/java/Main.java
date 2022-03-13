@@ -26,7 +26,7 @@ public class Main {
         list.popHead();
         out.println("List with popped head: "+list.toString());
 
-        out.println();
+        out.println("Проверка на переход");
         out.println(list.searchForNumOfLocalMax());
         out.println();
 

@@ -75,6 +75,7 @@ class LinkedList{
         while (thisCell != null) {
             if (Math.abs(thisCell.getValue() - searchingValue) <= 1E-5) {
                 helpCell=thisCell;
+                thisCell = thisCell.getNextCell();
             }
             else {
                 thisCell = thisCell.getNextCell();
