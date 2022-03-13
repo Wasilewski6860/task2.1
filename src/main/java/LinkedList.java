@@ -59,44 +59,41 @@ class LinkedList {
 
 
     public double popHead() throws IllegalAccessException {
+
+        if (head == null) {
+            throw new IllegalAccessException();
+        }
+
         double value = head.getValue();
 
-        if (head != null){
-            if (head.getNextCell() != null) {
-                head = head.getNextCell();
-                head.setPreviousCell(null);
-            } else {
-                head = null;
-                tail = null;
-            }
-        }else {
-            throw new IllegalAccessException();
-
+        if (head.getNextCell() != null) {
+            head = head.getNextCell();
+            head.setPreviousCell(null);
+        }
+        else {
+            head = null;
+            tail = null;
         }
 
         return value;
     }
 
 
-
     public double popTail() throws IllegalAccessException {
-
-        double value = tail.getValue();
-
-        if (tail != null) {
-            if (tail.getPreviousCell() != null) {
-                tail = tail.getPreviousCell();
-                tail.setNextCell(null);
-            }
-
-            else {
-                head = null;
-                tail = null;
-            }
-        } else {
+        if (tail == null) {
             throw new IllegalAccessException();
         }
 
+        double value = tail.getValue();
+
+        if (tail.getPreviousCell() != null) {
+            tail = tail.getPreviousCell();
+            tail.setNextCell(null);
+        }
+        else {
+            head = null;
+            tail = null;
+        }
 
         return value;
     }
@@ -138,7 +135,7 @@ class LinkedList {
     }
 
 
-    public void removeNode(Cell selectedCell) throws IllegalAccessException {
+    public void removeCell(Cell selectedCell) throws IllegalAccessException {
 
         if (selectedCell == tail) {
             popTail();

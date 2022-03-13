@@ -1,4 +1,6 @@
+
 class Cell {
+
     private double value;
 
     private Cell nextCell;
@@ -27,5 +29,6 @@ class Cell {
     public void setPreviousCell(Cell previousCell) {
         this.previousCell = previousCell;
     }
+
 }
 
