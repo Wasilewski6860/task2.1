@@ -1,4 +1,5 @@
 class LinkedList{
+
     private class Cell {
 
         private double value;
