@@ -34,6 +34,50 @@ class LinkedList{
     }
     private Cell head;
     private Cell tail;
+    private int size;
+
+    public int getSize(){
+        int size = 0;
+        Cell thisCell = this.head;
+
+        while( thisCell != null){
+            size++;
+            thisCell = thisCell.getNextCell();
+        }
+        return size;
+    }
+
+    public static double[] listToArray(LinkedList list){
+        double[] array = new double[list.getSize()];
+        Cell thisCell = list.head;
+
+        int i=0;
+        while( thisCell != null){
+            array[i]= thisCell.getValue();
+            i++;
+            thisCell = thisCell.getNextCell();
+        }
+        return array;
+    }
+
+    public void addAllFromTail(LinkedList x1){
+        Cell thisCell = x1.head;
+
+
+        while( thisCell != null){
+            this.addFromTail(thisCell.getValue());
+            thisCell = thisCell.getNextCell();
+        }
+    }
+
+
+    public static LinkedList arrayToList(double[] array){
+        LinkedList list = new LinkedList();
+        for (double d: array){
+            list.addFromTail(d);
+        }
+        return list;
+    }
 
 
     public void addFromHead(double value){
@@ -154,6 +198,21 @@ class LinkedList{
             if ((thisCell.getValue()>thisCell.getNextCell().getValue()) && (thisCell.getValue()>thisCell.getPreviousCell().getValue())){
                 answer++;
                 System.out.println("Нашли Лок.Максимум " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" < "+thisCell.getValue());
+            }
+            thisCell = thisCell.getNextCell();
+        }
+        return answer;
+    }
+
+    public double searchForNumOfLocalMin(){
+        double answer =0;
+        Cell thisCell = this.head.getNextCell();
+
+        while  (thisCell.getNextCell() != null){
+
+            if ((thisCell.getValue()<thisCell.getNextCell().getValue()) && (thisCell.getValue()<thisCell.getPreviousCell().getValue())){
+                answer++;
+                System.out.println("Нашли Лок.Мин " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" > "+thisCell.getValue());
             }
             thisCell = thisCell.getNextCell();
         }
