@@ -1,3 +1,8 @@
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
+
+import static java.lang.System.out;
+import static java.lang.System.setOut;
+
 class LinkedList{
 
     private class Cell {
@@ -73,9 +78,14 @@ class LinkedList{
 
 
     public static LinkedList arrayToList(double[] array){
+        out.println("Проверка входного массива в arrayToList");
+        for (int i=0;i<array.length;i++){
+            out.print(array[i]+" ");
+        }
+        out.println();
         LinkedList list = new LinkedList();
-        for (double d: array){
-            list.addFromTail(d);
+        for (int i=0; i< array.length;i++){
+            list.addFromTail(array[i]);
         }
         return list;
     }
@@ -172,6 +182,7 @@ class LinkedList{
 
             thisCell = thisCell.getNextCell();
         }
+        answer += " " + thisCell.getValue();
         return answer;
     }
 
@@ -191,6 +202,7 @@ class LinkedList{
     }
 
     public double searchForNumOfLocalMax(){
+
         double answer =0;
         Cell thisCell = this.head;
 
@@ -203,6 +215,7 @@ class LinkedList{
             thisCell = thisCell.getNextCell();
         }
         return answer;
+
     }
 
     public double searchForNumOfLocalMin(){
@@ -217,6 +230,7 @@ class LinkedList{
             }
             thisCell = thisCell.getNextCell();
         }
+
         return answer;
     }
 
