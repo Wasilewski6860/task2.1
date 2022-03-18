@@ -17,6 +17,7 @@ public class MainForm extends JFrame {
     private JButton popFromHeadButton;
     private JButton addFromTailButton;
     private JButton addFromHeadButton;
+    private JButton createNewLinkedListButton;
     private LinkedList list = new LinkedList();
 
     public MainForm(){
@@ -62,14 +63,8 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    out.println("adding from tail");
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
-                    for (int i=0;i<array.length;i++){
-                        out.print(" "+array[i]);
-                    }
-                    out.println();
                     list=LinkedList.arrayToList(array);
-                    out.println("Check of list "+list.toString());
 
                 } catch (ParseException ex) {
                     ex.printStackTrace();
@@ -84,23 +79,13 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    out.println("popping from tail");
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
-                    for (int i=0;i<array.length;i++){
-                        out.print(" "+array[i]);
-                    }
-                    out.println();
                     list=LinkedList.arrayToList(array);
-                    out.println("Check of list "+list.toString());
-
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
                 list.popTail();
                 double[] arr = LinkedList.listToArray(list);
-                for (int i=0;i<arr.length;i++){
-                    out.print(arr[i]+" ");
-                }
                 ru.vsu.baryshev.util.JTableUtils.writeArrayToJTable(table,arr);
             }
         });
@@ -109,58 +94,47 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    out.println("before adding from head");
+
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
-                    for (int i=0;i<array.length;i++){
-                        out.print(" "+array[i]);
-                    }
-                    out.println();
+
                     list=LinkedList.arrayToList(array);
-                    out.println("Check of list "+list.toString());
+
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
                 list.addFromHead(0);
-                out.println("Создаем массив по списку");
+
                 double[] arr = LinkedList.listToArray(list);
-                out.println("After");
-                out.println("Array");
-                for (int i=0;i<arr.length;i++){
-                    out.print(arr[i]+" ");
-                }
-                out.println("List "+ list.toString());
                 ru.vsu.baryshev.util.JTableUtils.writeArrayToJTable(table,arr);
             }
         });
 
-        popFromHeadButton.addActionListener(new ActionListener() { // есть ошибка
+        popFromHeadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    out.println("popping from head");
-//                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
-                    for (int i=0;i<array.length;i++){
-                        out.print(" "+array[i]);
-                    }
-                    out.println();
                     list=LinkedList.arrayToList(array);
-                    out.println("Check of list "+list.toString());
 
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
 
-                try {
-                    list.popHead();
-                } catch (IllegalAccessException ex) {
-                    ex.printStackTrace();
-                }
+                list.popHead();
                 double[] arr = LinkedList.listToArray(list);
 
                 ru.vsu.baryshev.util.JTableUtils.writeArrayToJTable(table,arr);
             }
         });
 
+
+        createNewLinkedListButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double[] array={0};
+                list=LinkedList.arrayToList(array);
+                ru.vsu.baryshev.util.JTableUtils.writeArrayToJTable(table,array);
+            }
+        });
     }
 }

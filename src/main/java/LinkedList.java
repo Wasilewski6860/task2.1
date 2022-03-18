@@ -1,7 +1,3 @@
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
-
-import static java.lang.System.out;
-import static java.lang.System.setOut;
 
 class LinkedList{
 
@@ -37,71 +33,20 @@ class LinkedList{
         }
 
     }
+
     private Cell head;
     private Cell tail;
 
-
-    public int getSize(){
-        int size = 0;
-        Cell thisCell = this.head;
-
-        while( thisCell != null){
-            size++;
-            thisCell = thisCell.getNextCell();
-        }
-        System.out.println(size);
-        return size;
-    }
-
-    public static double[] listToArray(LinkedList list){
-        double[] array = new double[list.getSize()];
-        Cell thisCell = list.head;
-
-        int i=0;
-        while( thisCell != null){
-            array[i]= thisCell.getValue();
-            i++;
-            thisCell = thisCell.getNextCell();
-        }
-        return array;
-    }
-
-    public void addAllFromTail(LinkedList x1){
-        Cell thisCell = x1.head;
-
-
-        while( thisCell != null){
-            this.addFromTail(thisCell.getValue());
-            thisCell = thisCell.getNextCell();
-        }
-    }
-
-
-    public static LinkedList arrayToList(double[] array){
-        out.println("Проверка входного массива в arrayToList");
-        for (int i=0;i<array.length;i++){
-            out.print(array[i]+" ");
-        }
-        out.println();
-        LinkedList list = new LinkedList();
-        for (int i=0; i< array.length;i++){
-            list.addFromTail(array[i]);
-        }
-        return list;
-    }
-
-
     public void addFromHead(double value){
-        Cell helpCell = new Cell(value);
+        Cell tempCell = new Cell(value);
 
         if (this.head !=null){
-            head.setPreviousCell(helpCell);
-            helpCell.setNextCell(head);
-            head=helpCell;
+            head.setPreviousCell(tempCell);
+            tempCell.setNextCell(head);
+            head=tempCell;
         }else {
-            head=tail=helpCell;
+            head=tail=tempCell;
         }
-
     }
 
     public void addFromTail(double value){
@@ -116,17 +61,17 @@ class LinkedList{
         }
     }
 
-    public double popHead() throws IllegalAccessException {
+    public double popHead() throws NullPointerException {
 
         if (head == null) {
-            throw new IllegalArgumentException();
+            throw new NullPointerException();
         }
 
         double value = head.getValue();
 
         if (head.getNextCell() != null) {
-            head.setPreviousCell(null);
             head = head.getNextCell();
+            head.setPreviousCell(null);
         }
         else {
             head = tail = null;
@@ -157,32 +102,32 @@ class LinkedList{
 
     public Cell findCell(double searchingValue){
 
-        Cell thisCell = head;
-        Cell helpCell = null;
+        Cell tempCell = head;
+        Cell answerCell = null;
 
-        while (thisCell != null) {
-            if (Math.abs(thisCell.getValue() - searchingValue) <= 1E-5) {
-                helpCell=thisCell;
-                thisCell = thisCell.getNextCell();
+        while (tempCell != null) {
+            if (Math.abs(tempCell.getValue() - searchingValue) <= 1E-5) {
+                answerCell=tempCell;
+                tempCell = tempCell.getNextCell();
             }
             else {
-                thisCell = thisCell.getNextCell();
+                tempCell = tempCell.getNextCell();
             }
         }
 
-        return helpCell;
+        return answerCell;
     }
 
     public String toString(){
-        Cell thisCell = this.head;
+        Cell tempCell = this.head;
         String answer = new String();
 
-        while(thisCell.getNextCell() !=null && thisCell != null){
-            answer = answer + " " + thisCell.getValue();
+        while(tempCell.getNextCell() !=null ){
+            answer = answer + " " + tempCell.getValue();
 
-            thisCell = thisCell.getNextCell();
+            tempCell = tempCell.getNextCell();
         }
-        answer += " " + thisCell.getValue();
+        answer += " " + tempCell.getValue();
         return answer;
     }
 
@@ -201,37 +146,78 @@ class LinkedList{
         }
     }
 
-    public double searchForNumOfLocalMax(){
+    public int searchForNumOfLocalMax(){
 
-        double answer =0;
-        Cell thisCell = this.head;
+        int answer =0;
+        if (this.getSize() !=1) {
+            Cell tempCell = this.head.getNextCell();
 
-        while  (thisCell.getNextCell() != null ){
+            while (tempCell.getNextCell() != null) {
 
-            if ((thisCell.getValue()>thisCell.getNextCell().getValue()) && (thisCell.getValue()>thisCell.getPreviousCell().getValue())){
-                answer++;
-                System.out.println("Нашли Лок.Максимум " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" < "+thisCell.getValue());
+                if ((tempCell.getValue() > tempCell.getNextCell().getValue()) && (tempCell.getValue() > tempCell.getPreviousCell().getValue())) {
+                    answer++;
+                }
+                tempCell = tempCell.getNextCell();
             }
-            thisCell = thisCell.getNextCell();
         }
         return answer;
 
     }
 
-    public double searchForNumOfLocalMin(){
-        double answer =0;
-        Cell thisCell = this.head.getNextCell();
+    public int searchForNumOfLocalMin(){
+        int answer =0;
 
-        while  (thisCell.getNextCell() != null){
+        if (this.getSize()!=1) {
+            Cell thisCell = this.head.getNextCell();
 
-            if ((thisCell.getValue()<thisCell.getNextCell().getValue()) && (thisCell.getValue()<thisCell.getPreviousCell().getValue())){
-                answer++;
-                System.out.println("Нашли Лок.Мин " + thisCell.getPreviousCell().getValue()+" , "+thisCell.getNextCell().getValue()+" > "+thisCell.getValue());
+            while (thisCell.getNextCell() != null ) {
+
+                if ((thisCell.getValue() < thisCell.getNextCell().getValue()) && (thisCell.getValue() < thisCell.getPreviousCell().getValue())) {
+                    answer++;
+
+                }
+                thisCell = thisCell.getNextCell();
             }
+        }
+        return answer;
+    }
+
+    public int getSize(){
+        int size = 0;
+        Cell thisCell = this.head;
+
+        while( thisCell != null){
+            size++;
             thisCell = thisCell.getNextCell();
         }
+        return size;
+    }
 
-        return answer;
+
+
+
+
+
+    public static double[] listToArray(LinkedList list){
+        double[] array = new double[list.getSize()];
+        Cell thisCell = list.head;
+
+        int i=0;
+        while( thisCell != null){
+            array[i]= thisCell.getValue();
+            i++;
+            thisCell = thisCell.getNextCell();
+        }
+        return array;
+    }
+
+    public static LinkedList arrayToList(double[] array){
+
+        LinkedList list = new LinkedList();
+        for (int i=0; i< array.length;i++){
+            list.addFromTail(array[i]);
+        }
+        return list;
     }
 
 }
