@@ -34,7 +34,7 @@ class LinkedList{
     }
     private Cell head;
     private Cell tail;
-    private int size;
+
 
     public int getSize(){
         int size = 0;
@@ -44,6 +44,7 @@ class LinkedList{
             size++;
             thisCell = thisCell.getNextCell();
         }
+        System.out.println(size);
         return size;
     }
 

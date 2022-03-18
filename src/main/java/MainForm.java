@@ -29,6 +29,7 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileopen = new JFileChooser();
+                fileopen.setCurrentDirectory(new File(System.getProperty("user.dir")));
                 int ret = fileopen.showDialog(null, "Открыть файл");
 
                 if (ret == JFileChooser.APPROVE_OPTION) {
@@ -61,7 +62,14 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
+                    out.println("adding from tail");
+                    double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
+                    for (int i=0;i<array.length;i++){
+                        out.print(" "+array[i]);
+                    }
+                    out.println();
+                    list=LinkedList.arrayToList(array);
+                    out.println("Check of list "+list.toString());
 
                 } catch (ParseException ex) {
                     ex.printStackTrace();
@@ -76,7 +84,14 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
+                    out.println("popping from tail");
+                    double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
+                    for (int i=0;i<array.length;i++){
+                        out.print(" "+array[i]);
+                    }
+                    out.println();
+                    list=LinkedList.arrayToList(array);
+                    out.println("Check of list "+list.toString());
 
                 } catch (ParseException ex) {
                     ex.printStackTrace();
@@ -94,34 +109,42 @@ public class MainForm extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
+                    out.println("before adding from head");
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
                     for (int i=0;i<array.length;i++){
                         out.print(" "+array[i]);
                     }
+                    out.println();
+                    list=LinkedList.arrayToList(array);
                     out.println("Check of list "+list.toString());
                 } catch (ParseException ex) {
                     ex.printStackTrace();
                 }
                 list.addFromHead(0);
+                out.println("Создаем массив по списку");
                 double[] arr = LinkedList.listToArray(list);
-
+                out.println("After");
+                out.println("Array");
                 for (int i=0;i<arr.length;i++){
                     out.print(arr[i]+" ");
                 }
+                out.println("List "+ list.toString());
                 ru.vsu.baryshev.util.JTableUtils.writeArrayToJTable(table,arr);
             }
         });
 
-        popFromHeadButton.addActionListener(new ActionListener() {
+        popFromHeadButton.addActionListener(new ActionListener() { // есть ошибка
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
+                    out.println("popping from head");
+//                    list = LinkedList.arrayToList(ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table));
                     double[] array = ru.vsu.baryshev.util.JTableUtils.readDoubleArrayFromJTable(table);
                     for (int i=0;i<array.length;i++){
                         out.print(" "+array[i]);
                     }
+                    out.println();
+                    list=LinkedList.arrayToList(array);
                     out.println("Check of list "+list.toString());
 
                 } catch (ParseException ex) {
